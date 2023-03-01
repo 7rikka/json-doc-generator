@@ -23,8 +23,14 @@ public class MdUtil {
         bufferedReader.close();
         //解析JSON
         ONode oNode = ONode.loadStr(json);
-        String name = "root";
-        cl(name, oNode);
+        String name = "根对象";
+        if (ONodeType.Array == oNode.nodeType()) {
+            oNode.forEach(oNode1 -> {
+                cl(name, oNode1);
+            });
+        } else {
+            cl(name, oNode);
+        }
         //整理
         System.out.println("=======整理==========");
         for (Map.Entry<String, List<String[]>> item : map.entrySet()) {
